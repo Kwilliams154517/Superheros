@@ -35,6 +35,7 @@ class Hero:
 		'''
 		self.name = name
 		self.starting_health = starting_health
+		self.current_health = starting_health
 		self.abilities = []
 		self.armors = []
 
@@ -61,9 +62,30 @@ class Hero:
 		Returns sum of all blocks
 		'''
 # TODO: This method should run the block method on each armor in self.armors
-		sum = 0 
-		for damage_amt in self.armors:
-			sum += damage_amt
-		return sum 
+		try:
+			for armor in self.armors:
+				damage_amt -= armor.block()
+		except:
+			pass
+		return damage_amt 
 
+	def take_damage(self, damage):
+		'''Updates self.current_health to reflect the damage minus the defense.
+		'''
+		# TODO: Create a method that updates self.current_health to the current
+		# minus the the amount returned from calling self.defend(damage).
+		self.current_health -= self.defend(damage)
+  
+	def is_alive(self):
+		'''Return True or False depending on whether the hero is alive or not.
+		'''
+		# TODO: Check whether the hero is alive and return true or false
+
+		if self.current_health >= 0:
+			return True
+		else:
+			return False
+
+	def fight(self, opponent):
+		
 
