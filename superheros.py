@@ -12,6 +12,8 @@ class Ability:
 	def attack(self):
 		''' Return a value between 0 and the value set by self.max_damage.'''
 		return random.randint(0, self.attack_strength)
+
+
 class Armor:
 	def __init__(self, name, max_block):
 		'''Instantiate instance properties.
@@ -23,6 +25,7 @@ class Armor:
 
 	def block(self):
 		return random.randint(0, self.max_block)
+
 
 class Hero:
 	def __init__(self, name, starting_health=100):
@@ -51,6 +54,7 @@ class Hero:
 		for ability in self.abilities:
 			total += ability.attack()
 		return total
+
 	def add_armor(self, armor):
 		'''Add armor to self.armors
 		Armor: Armor Object
@@ -61,7 +65,6 @@ class Hero:
 		'''Runs `block` method on each armor.
 		Returns sum of all blocks
 		'''
-# TODO: This method should run the block method on each armor in self.armors
 		try:
 			for armor in self.armors:
 				damage_amt -= armor.block()
@@ -72,14 +75,11 @@ class Hero:
 	def take_damage(self, damage):
 		'''Updates self.current_health to reflect the damage minus the defense.
 		'''
-		# TODO: Create a method that updates self.current_health to the current
-		# minus the the amount returned from calling self.defend(damage).
 		self.current_health -= self.defend(damage)
   
 	def is_alive(self):
 		'''Return True or False depending on whether the hero is alive or not.
 		'''
-		# TODO: Check whether the hero is alive and return true or false
 
 		if self.current_health >= 0:
 			return True
@@ -87,5 +87,35 @@ class Hero:
 			return False
 
 	def fight(self, opponent):
-		
+		# loop while self and opponent are fighting
+			# self takes damage, where damage = opponent.attack()
+			# opponent takes damage, where damage = self.attack()
+			# check if either of them died
+				# if they did end the while loop
+		# print ______ wins!
+		while opponent.is_alive() and self.is_alive():
+			damage = self.attack()
+			opponent.take_damage(damage)
+			damage = opponent.attack()
+			self.take_damage(damage)
+		if opponent.is_alive():
+			print(f"{opponent.name} knocked {self.name} the fuck out")
+		else:
+			print(f"{self.name} knocked {opponent.name} the fuck out")
 
+
+if __name__ == "__main__":
+    # If you run this file from the terminal
+    # this block is executed.
+
+    hero1 = Hero("Coco Roco")
+    hero2 = Hero("Kye")
+    ability1 = Ability("Super Speed", 30)
+    ability2 = Ability("Super Eyes", 60)
+    ability3 = Ability("Wizard Wand", 80)
+    ability4 = Ability("Wizard Beard", 20)
+    hero1.add_ability(ability1)
+    hero1.add_ability(ability2)
+    hero2.add_ability(ability3)
+    hero2.add_ability(ability4)
+    hero1.fight(hero2)
