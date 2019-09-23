@@ -60,6 +60,10 @@ class Hero:
 		'''Runs `block` method on each armor.
 		Returns sum of all blocks
 		'''
-  
-	# TODO: This method should run the block method on each armor in self.armors
+# TODO: This method should run the block method on each armor in self.armors
+		sum = 0 
+		for damage_amt in self.armors:
+			sum += damage_amt
+		return sum 
+
 
