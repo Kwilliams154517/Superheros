@@ -41,6 +41,14 @@ class Hero:
 		self.current_health = starting_health
 		self.abilities = []
 		self.armors = []
+		self.deaths = 0
+		self.kills = 0
+
+	def add_kill(self, num_kills):
+		self.kills += num_kills 
+
+	def add_deaths(self, num_deaths):
+		self.deaths += num_deaths
 
 	def add_ability(self, ability):
 		''' Add ability to abilities list '''
@@ -99,9 +107,15 @@ class Hero:
 			damage = opponent.attack()
 			self.take_damage(damage)
 		if opponent.is_alive():
-			print(f"{opponent.name} knocked {self.name} the fuck out")
+			opponent.add_kill(1)
+			print(f"{opponent.name} knocked {self.name} the f*** out")
 		else:
-			print(f"{self.name} knocked {opponent.name} the fuck out")
+			self.add_deaths(1)
+			print(f"{self.name} knocked {opponent.name} the f*** out")
+		
+		
+
+
 
 class Weapon(Ability):
     def attack(self):
@@ -111,13 +125,41 @@ class Team():
 	def __init__(self, name):
 		self.name = name
 		self.heros = []
+
 	def remove_hero(self, hero):
 		if hero in self.heros:
 			self.heros.remove(hero)
 		else:
 			return 0
+
 	def veiw_all_heroes(self):
 		print("heros: " + ", ".join(self.heros))
+
 	def add_hero(self, hero):
 		self.heros.append(hero)
+
+	def attack(self, other_team):
+		""" Make teams fight """
+		shuffle(self.heros)
+		shuffle(other_team.heros)
+		for other_hero in other_team.heros:
+			for hero in self.heros:
+				hero.fight(other_hero)
+	
+	def revive_heros(self, health=100):
+		""" reset all heros health back to its starting health """
+		for hero in self.heros:
+			try:
+				hero.current_health = hero.starting_health
+			except:
+				hero.current_health = health
+	def stats(self):
+		for hero in self.heros:
+			print(f"{hero.name} your stats are {hero.kills / hero.deaths} ") 
+
+
+	 	
+	
+		
+		
 	
