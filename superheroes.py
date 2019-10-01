@@ -162,7 +162,7 @@ class Team():
 			print(f" {self.name} Won!")
 
 		elif other_team.is_alive():
-			print("You FUCKING LOSER YOU SHOULD DO BETTER WEAK ASS NIGGA :-) ")
+			print("You lose :-) ")
 
 
 
