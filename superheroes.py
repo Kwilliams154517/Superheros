@@ -1,4 +1,5 @@
 import random
+from random import shuffle
 
 class Ability:
 	def __init__(self, name, attack_strength):
@@ -113,10 +114,13 @@ class Hero:
 			self.add_deaths(1)
 			print(f"{self.name} knocked {opponent.name} the f*** out")
 		
+	def add_weapon(self, weapon):
+		weapon.append(self.abilities)
+	
+	def add_armors(self, armor):
+		armor.append(self.armors)
 		
-
-
-
+		
 class Weapon(Ability):
     def attack(self):
         return random.randint(2/self.attack_strength, self.attack_strength)
@@ -138,6 +142,12 @@ class Team():
 	def add_hero(self, hero):
 		self.heros.append(hero)
 
+	def is_alive(self):
+		for hero in self.heros:
+			if hero.is_alive():
+				return True
+		return False
+
 	def attack(self, other_team):
 		""" Make teams fight """
 		shuffle(self.heros)
@@ -145,6 +155,17 @@ class Team():
 		for other_hero in other_team.heros:
 			for hero in self.heros:
 				hero.fight(other_hero)
+		if self.is_alive() and other_team.is_alive():
+			print(f" {self.other_team.name} Tied!")
+
+		elif self.is_alive():
+			print(f" {self.name} Won!")
+
+		elif other_team.is_alive():
+			print("You FUCKING LOSER YOU SHOULD DO BETTER WEAK ASS NIGGA :-) ")
+
+
+
 	
 	def revive_heros(self, health=100):
 		""" reset all heros health back to its starting health """
@@ -157,8 +178,92 @@ class Team():
 		for hero in self.heros:
 			print(f"{hero.name} your stats are {hero.kills / hero.deaths} ") 
 
+class Arena:
+	def __init__(self):
+		self.team_one = None
+		self.team_two = None
+		
+	def create_ability(self):
+		name = input("Enter ability name: ")
+		attack_strength = input("Enter Attack Strength: ")
+		return Ability(name, attack_strength)
+		
+	def create_weapon(self):
+		name = input("Create weapon name: ")
+		weapon = input("Create a Weapon: ")
+		return Weapon(name, weapon)
+		
+	def create_armor(self):
+		name = input("Create armor name maybe idk dude come back later: ? ")
+		armor = input("Create Hero armor: ")
+		return Armor(name, armor)
+	
 
-	 	
+	def create_hero(self):
+		name = input("Create a hero name: ")
+		Hero = input("Create a starting health: ")
+		return Hero(name, starting_health = 100)
+	
+
+	def build_team_one(self):
+		name = input("Create the first team name: ")
+		team_len = input("how many heros would you like in this team: ")
+		self.team_one = Team(name)
+		for i in range(int(team_len)):
+			self.team_one.add_hero(self.create_hero())
+
+
+	def build_team_two(self):
+		name = input("Create the second team name: ")
+		team_len = input("how many heros would you like in this team: ")
+		self.team_two = Team(name)
+		for i in range(int(team_len)):
+			self.team_one.add_hero(self.create_hero())
+		
+
+	def team_battle(self):
+		self.team_one.attack(team_two)
+
+	def show_stats(self):
+		print("The winners are: " + self.winning_team)
+        
+		self.team_one.stats()
+		self.team_two.stats()
+
+		if self.winning_team == self.team_one.name:
+			for hero in self.team_one.heroes:
+				if hero.status == "Alive":
+					print("Surviving Heroes: " + hero.name)
+		elif self.winning_team == self.team_two.name:
+			for hero in self.team_two.heroes:
+				if hero.status == "Alive":
+           		 	print("Surviving Heroes: " + hero.name)
+
+if __name__ == "__main__":
+    game_is_running = True
+
+    # Instantiate Game Arena
+    arena = Arena()
+
+    #Build Teams
+    arena.build_team_one()
+    arena.build_team_two()
+
+    while game_is_running:
+
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        #Check for Player Input
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            #Revive heroes to play again
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
+
 	
 		
 		
