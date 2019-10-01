@@ -182,6 +182,7 @@ class Arena:
 	def __init__(self):
 		self.team_one = None
 		self.team_two = None
+		winning_team = None
 		
 	def create_ability(self):
 		name = input("Enter ability name: ")
