@@ -156,7 +156,7 @@ class Team():
 			for hero in self.heros:
 				hero.fight(other_hero)
 		if self.is_alive() and other_team.is_alive():
-			print(f" {self.other_team.name} Tied!")
+			print(f" {other_team.name} Tied!")
 
 		elif self.is_alive():
 			print(f" {self.name} Won!")
@@ -182,7 +182,7 @@ class Arena:
 	def __init__(self):
 		self.team_one = None
 		self.team_two = None
-		winning_team = None
+		self.winning_team = None
 		
 	def create_ability(self):
 		name = input("Enter ability name: ")
@@ -223,7 +223,7 @@ class Arena:
 		
 
 	def team_battle(self):
-		self.team_one.attack(team_two)
+		self.team_one.attack(self.team_two)
 
 	def show_stats(self):
 		print("The winners are: " + self.winning_team)
@@ -232,13 +232,13 @@ class Arena:
 		self.team_two.stats()
 
 		if self.winning_team == self.team_one.name:
-			for hero in self.team_one.heroes:
+			for hero in self.team_one.heros:
 				if hero.status == "Alive":
 					print("Surviving Heroes: " + hero.name)
 		elif self.winning_team == self.team_two.name:
-			for hero in self.team_two.heroes:
+			for hero in self.team_two.heros:
 				if hero.status == "Alive":
-           		 	print("Surviving Heroes: " + hero.name)
+					print("Surviving Heroes: " + hero.name)
 
 if __name__ == "__main__":
     game_is_running = True
@@ -262,8 +262,8 @@ if __name__ == "__main__":
 
         else:
             #Revive heroes to play again
-            arena.team_one.revive_heroes()
-            arena.team_two.revive_heroes()
+            arena.team_one.revive_heros()
+            arena.team_two.revive_heros()
 
 	
 		
