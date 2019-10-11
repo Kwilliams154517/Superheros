@@ -90,7 +90,7 @@ class Hero:
 		'''Return True or False depending on whether the hero is alive or not.
 		'''
 
-		if self.current_health >= 0:
+		if int(self.current_health) > 0:
 			return True
 		else:
 			return False
@@ -159,10 +159,10 @@ class Team():
 			print(f" {other_team.name} Tied!")
 
 		elif self.is_alive():
-			print(f" {self.name} Won!")
+			return self 
 
 		elif other_team.is_alive():
-			print("You lose :-) ")
+			return other_team
 
 
 
@@ -176,7 +176,11 @@ class Team():
 				hero.current_health = health
 	def stats(self):
 		for hero in self.heros:
-			print(f"{hero.name} your stats are {hero.kills / hero.deaths} ") 
+			if hero.deaths == 0:
+				KD = 0
+			else:
+				KD = hero.kills / hero.deaths
+			print(f"{hero.name} your stats are {KD} ") 
 
 class Arena:
 	def __init__(self):
@@ -202,8 +206,8 @@ class Arena:
 
 	def create_hero(self):
 		name = input("Create a hero name: ")
-		Hero = input("Create a starting health: ")
-		return Hero(name, starting_health = 100)
+		health = input("Create a starting health: ")
+		return Hero(name, health)
 	
 
 	def build_team_one(self):
@@ -223,10 +227,10 @@ class Arena:
 		
 
 	def team_battle(self):
-		self.team_one.attack(self.team_two)
+		self.winning_team = self.team_one.attack(self.team_two)
 
 	def show_stats(self):
-		print("The winners are: " + self.winning_team)
+		print("The winners are: " + self.winning_team.name)
         
 		self.team_one.stats()
 		self.team_two.stats()
